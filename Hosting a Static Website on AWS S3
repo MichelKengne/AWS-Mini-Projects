@@ -1,0 +1,29 @@
+Project 1: German Bakery Static Website
+Live Demo: https://my-staticweb-demo1.s3.eu-central-1.amazonaws.com/index.html
+Tech Stack: 
+HTML5 + CSS3
+AWS S3 (Static Website Hosting)
+
+Deployment Steps:
+
+1. Created a single responsive index.html file with inline CSS.
+2. Created an S3 bucket and disabled "Block all public access".
+3. Enabled Static Website Hosting (set index document to index.html).
+4. Generated and applied a public read bucket policy using AWS Policy Generator:
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "Statement1",
+      "Effect": "Allow",
+      "Principal": "*",
+      "Action": [
+        "s3:GetObject"
+      ],
+      "Resource": "arn:aws:s3:::my-staticweb-demo1/*"
+    }
+  ]
+}
+
+5. Uploaded index.html to the bucket.
+6. Tested the site via the S3 website endpoint on desktop and mobile.
