@@ -1,0 +1,29 @@
+Inspired by: Tech with Lucy YouTube tutorial ("Build with Me: Visualize Data using Amazon QuickSight")
+Tech Stack
+
+Amazon S3 (data storage)
+Amazon QuickSight (data visualization)
+JSON manifest file for connecting S3 data
+
+Project Overview
+Visualized a dataset (Amazon-Bestsellers-Dataset.csv) by storing it in S3, configuring a manifest.json file to point to the data, and creating interactive dashboards in QuickSight.
+
+Steps Completed in Amazon S3:
+
+1. Downloaded the dataset (CSV) and sample manifest.json from the tutorial resources.
+2. Created an S3 bucket and uploaded the dataset (CSV) file and manifest.json file.
+3. Edited manifest.json locally: Updated the URI(s) to point to the S3 location of the dataset (s3://best-seller-bucketv1/Amazon-Bestsellers-Dataset.csv).
+4. Uploaded the updated manifest.json to the same S3 bucket.
+
+In Amazon QuickSight:
+
+1. Modified the permission to grant Amazon QuickSight access to my S3 bucket (best-seller-bucketv1)
+2. Created a new dataset → Selected S3 data source.
+3. Provided the S3 URL of the manifest.json file.
+4. Imported data into SPICE and prepared fields.
+5. Built visualizations (charts, tables) and created a dashboard for insights.
+6.Tested and explored the interactive dashboard.
+
+
+Result:
+Successful end-to-end data visualization pipeline using serverless AWS services. Gained hands-on experience with S3 manifest files and QuickSight dashboards.
