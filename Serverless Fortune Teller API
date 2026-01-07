@@ -1,0 +1,47 @@
+Project: Serverless Fortune Teller API  
+
+Inspired by: Tech by Lucie YouTube tutorial  
+
+Tech Stacks:
+- Python 3.10  
+- AWS Lambda  
+- Amazon API Gateway (HTTP API)
+
+Project Overview
+A simple serverless fortune teller that answers any question with "Yes", "No", or "Maybe". Built using AWS Lambda for the backend logic and API Gateway to expose it as a public HTTP endpoint.
+
+Implementation Steps
+
+1. Created AWS Lambda Function  
+   - Navigated to AWS Lambda → Create function → Author from scratch.  
+   - Named the function and selected Python runtime.  
+   - Wrote Python code using `random` module to generate random responses.  
+   - Used the default settings. 
+   - Imported `random` and defined a list of possible answers (e.g., "Yes", "No", "Maybe", "Ask again later").  
+   - Implemented `lambda_handler` to accept input (optional question) and return a random answer in JSON format.
+   - Python code: 
+import random
+
+def lambda_handler(event, context):
+    question = event.get("question", "")
+    answers = ["Yes", "No", "Maybe"]
+    return {
+        "statusCode": 200,
+        "body": {
+            "question": question,
+            "answer": random.choice(answers)
+        }
+    }
+
+2. Set Up API Gateway  
+   - Created a new HTTP API in API Gateway.  
+   - Added a route: GET.  
+   - Integrated with my existing Lambda function using management integration.
+   - Deployed the API.  
+   - Obtained the public Invoke URL: https://23toybbo98.execute-api.eu-central-1.amazonaws.com/
+
+3. Testing
+   - Tested the endpoint using browser. 
+   - Unfortunately received an error: {"message":"Internal Server Error"}
+
+NB: Still trying to troubleshoot this error
