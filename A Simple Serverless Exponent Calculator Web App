@@ -1,0 +1,132 @@
+Project: To the Power of Math  
+
+Inspired by Tiny Technical Tutorials on YouTube 
+
+Live Demo: https://dev.d3r4g6gwfqb044.amplifyapp.com/
+
+Project Overview  
+A clean, user-friendly web application where users enter a base number and an exponent, and the app instantly calculates 
+base to the power of the exponent using serverless AWS backend.
+
+
+Tech Stack  
+- Frontend: Hosted & deployed with AWS Amplify   
+- Backend: AWS Lambda   
+- API: Amazon API Gateway (REST endpoint)  
+- Database: Amazon DynamoDB  
+
+Architecture & Steps I Followed  
+
+1. Set up AWS Amplify 
+   - Launched AWS Amplify. 
+   - Selected the option deploy without Git.
+   - Uploaded the host web app manually as a zip folder.
+
+Code of web app (Inspired by Tiny Technical Tutolrials on Youtube):
+     # import the JSON utility package
+import json
+# import the Python math library
+import math
+
+# import the AWS SDK (for Python the package name is boto3)
+import boto3
+# import two packages to help us with dates and date formatting
+from time import gmtime, strftime
+
+# create a DynamoDB object using the AWS SDK
+dynamodb = boto3.resource('dynamodb')
+# use the DynamoDB object to select our table
+table = dynamodb.Table('PowerofMathDB')
+# store the current time in a human readable format in a variable
+now = strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime())
+
+# define the handler function that the Lambda service will use an entry point
+def lambda_handler(event, context):
+
+# extract the two numbers from the Lambda service's event object
+    mathResult = math.pow(int(event['base']), int(event['exponent']))
+
+# write result and time to the DynamoDB table using the object we instantiated and save response in a variable
+    response = table.put_item(
+        Item={
+            'ID': str(mathResult),
+            'LatestGreetingTime':now
+            })
+
+# return a properly formatted JSON object
+    return {
+    'statusCode': 200,
+    'body': json.dumps('Your result is ' + str(mathResult))
+    }
+
+
+
+2. Created Backend with AWS Lambda 
+   - Built a Lambda function that takes base & exponent as input  
+   - Performed calculation  
+   - Returned result as JSON :
+
+        # import the JSON utility package
+import json
+# import the Python math library
+import math
+
+# import the AWS SDK (for Python the package name is boto3)
+import boto3
+# import two packages to help us with dates and date formatting
+from time import gmtime, strftime
+
+# create a DynamoDB object using the AWS SDK
+dynamodb = boto3.resource('dynamodb')
+# use the DynamoDB object to select our table
+table = dynamodb.Table('PowerofMathDB')
+# store the current time in a human readable format in a variable
+now = strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime())
+
+# define the handler function that the Lambda service will use an entry point
+def lambda_handler(event, context):
+
+# extract the two numbers from the Lambda service's event object
+    mathResult = math.pow(int(event['base']), int(event['exponent']))
+
+# write result and time to the DynamoDB table using the object we instantiated and save response in a variable
+    response = table.put_item(
+        Item={
+            'ID': str(mathResult),
+            'LatestGreetingTime':now
+            })
+
+# return a properly formatted JSON object
+    return {
+    'statusCode': 200,
+    'body': json.dumps('Your result is ' + str(mathResult))
+    }
+
+
+3. Exposed API via Amazon API Gateway 
+   - Created REST API  
+   - Created a method (POST)  
+   - Integrated with my Lambda function  
+   - Enabled CORS for frontend calls  
+
+4. Amazon DynamoDB as Database   
+   - Created a table to store calculation history (result, timestamp)  
+   - Lambda writes each result to DynamoDB  
+
+5. Managed Permissions with AWS IAM  
+   - Created IAM role for Lambda execution  
+   - Attached inline policy granting:  
+        "dynamodb:PutItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:GetItem",
+        "dynamodb:Scan",
+        "dynamodb:Query",
+        "dynamodb:UpdateItem"  
+   - Ensured least-privilege access (only necessary DynamoDB actions)
+
+
+7. Deploy & Test
+   - Amplify handled frontend deployment.
+   - Tested web app and works excellently.  
+
+THANKS FOR FOLLOWING!!! :-) 
